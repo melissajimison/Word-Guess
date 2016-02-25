@@ -10,7 +10,6 @@ class GuessWord
   def user_guess
     puts "Please enter a letter or word guess"
     @guess = gets.chomp.downcase
-
   end
 
   def check_guess_if_word
@@ -29,7 +28,7 @@ class GuessWord
     if @word.include?(@guess)
       #CORRECT LETTER METHOD
     else
-      #INCORRECT GUESS METHOD
+      incorrect_guess
     end
   end
 
@@ -41,5 +40,11 @@ def incorrect_guess
      exit
 end
 
-
 end
+
+puts "Welcome to the Ada Word-Guess game"
+puts "instructions".upcase
+#ASCII art
+puts "Every time you correclty guess a letter, you will be closer to will"
+puts "But when you miss guess, one of the 6 elephants will die"
+user_guess
