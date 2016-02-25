@@ -18,7 +18,7 @@ class GuessWord
       if @guess == @word #for sting, change if array
         #WIN METHOD
       else
-        #INCORRECT GUESS METHOD
+        incorrect_guess
       end
     else
       check_letter
@@ -32,5 +32,14 @@ class GuessWord
       #INCORRECT GUESS METHOD
     end
   end
+
+def incorrect_guess
+  @number_tries = @number_tries -1
+  put "You have lost a turn"
+   if @number_tries = 0
+     put "YOU LOSER!!"
+     exit
+end
+
 
 end
