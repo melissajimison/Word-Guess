@@ -1,5 +1,12 @@
 @word = "subcontinental"
 @number_tries = 6
+
+@elephant = "
+   .----.-.
+  /    ( o \
+ '|  __ ` ||
+  |||  ||| -' "
+
 class GuessWord
   attr_accessor :guess
 
@@ -26,25 +33,33 @@ class GuessWord
 
   def check_letter
     if @word.include?(@guess)
-      #CORRECT LETTER METHOD
+      correct_letters
+      puts "Yay! You got a letter!"
     else
       incorrect_guess
     end
   end
 
-def incorrect_guess
-  @number_tries = @number_tries -1
-  put "You have lost a turn"
-   if @number_tries = 0
-     put "YOU LOSER!!"
-     exit
-end
+  def incorrect_guess
+    @number_tries -= @number_tries
+    puts @elephant * number_tries
+    puts "You have lost a turn"
+     if @number_tries == 0
+       put "YOU LOSER!!"
+       exit
+     end
+  end
 
+  def correct_letters
+    number_letters = word.length
+    @fill = number_letters * '_ '
+    correct_guesses = %W(@fill)
+  end
 end
 
 puts "Welcome to the Ada Word-Guess game"
 puts "instructions".upcase
-#ASCII art
+puts @elephants * 6
 puts "Every time you correclty guess a letter, you will be closer to will"
 puts "But when you miss guess, one of the 6 elephants will die"
 user_guess
