@@ -23,8 +23,7 @@ class GuessWord
   def check_guess_if_word
     if @guess.length > 1
       if @guess == @word #for sting, change if array
-        puts "YOU WIN!"
-        exit
+        win_game
       else
         incorrect_guess
       end
@@ -43,15 +42,15 @@ class GuessWord
   end
 
   def incorrect_guess
-    @number_tries = @number_tries - 1
+    $number_tries = $number_tries - 1
     puts "
        .----.-.
       /    ( o \
      '|  __ ` ||
-      |||  ||| -' " * @number_tries #NEED TO FIX
+      |||  ||| -' " * $number_tries #NEED TO FIX
     puts "You have lost a(n elephant) life!"
-     if @number_tries == 0
-       put "Elephant murderer!!"
+     if $number_tries == 0
+       puts "Elephant murderer!!"
        exit
      end
   end
@@ -81,12 +80,9 @@ class GuessWord
   end
 
   def win_game
-    puts "YAY YOU WON!! With #{ @number_tries } lives!!"
-    puts "
-       .----.-.
-      /    ( o \
-     '|  __ ` ||
-      |||  ||| -' " * @number_tries 
+    puts "YAY YOU WON!! With #{ $number_tries } lives!!"
+
+
     exit
   end
 
@@ -96,15 +92,15 @@ class GuessWord
 end
 
 class RunGame
-  attr_accessor :game, :word, :correct_guesses
+  attr_accessor :game, :word, :correct_guesses, :number_tries
   def initialize()
-    @word = "subcontinental"
-    @number_tries = 6
+    @word = ["Melissa", "Nicole", "concatenation", "interpolation", "instance"].sample
+    $number_tries = 6
   end
 
   def run
     #RUN CHOOSE-WORD METHOD => word
-    @game = GuessWord.new(word, @number_tries)
+    @game = GuessWord.new(word, $number_tries)
     puts "Welcome to the Ada Word-Guess game"
     puts "instructions".upcase
     puts "
@@ -120,7 +116,9 @@ class RunGame
     while $correct_guesses.to_s.include?("_") #DOES EVER BECOME FALSE?
       game.user_guess
       game.check_guess_if_word
+ puts $number_tries
     end
+    game.win_game
   end
 
 end
