@@ -1,5 +1,4 @@
-@word = "subcontinental"
-@number_tries = 6
+
 @elephant = "
    .----.-.
   /    ( o \
@@ -11,8 +10,9 @@ class GuessWord
   attr_accessor :guess
   attr_reader :word, :number_tries
 
-  def initialize(word)
+  def initialize(word, number_tries)
     @word = word
+    @shrinking_word = word
   end
 
   def user_guess
@@ -23,7 +23,8 @@ class GuessWord
   def check_guess_if_word
     if @guess.length > 1
       if @guess == @word #for sting, change if array
-        #WIN METHOD
+        puts "YOU WIN!"
+        exit
       else
         incorrect_guess
       end
@@ -42,44 +43,71 @@ class GuessWord
   end
 
   def incorrect_guess
-    @number_tries -= @number_tries
-    puts @elephant * number_tries
-    puts "You have lost a turn"
+    @number_tries = @number_tries - 1
+    puts "
+       .----.-.
+      /    ( o \
+     '|  __ ` ||
+      |||  ||| -' " * @number_tries #NEED TO FIX
+    puts "You have lost a(n elephant) life!"
      if @number_tries == 0
-       put "YOU LOSER!!"
+       put "Elephant murderer!!"
        exit
      end
   end
 
-  def correct_letters
+  def correct_letters #put before while loop in execute method
+    puts "CORRECT_LETTERS"
     number_letters = word.length
-    @fill = number_letters * '_ '
-    correct_guesses = %W(@fill)
+    puts number_letters
+    fill = "_ " * number_letters
+    @correct_guesses = %W(#{fill})
+    puts @correct_guesses
   end
 
   def add_letter_correct_array
-    shrinking_word = word
-    while shrinking_word.includes?(guess)
-      index = word.index(guess)
-      shrinking_word.tr(guess)
-      correct_guesses[index] = guess
+    while @shrinking_word.include?(guess)
+      puts "ADD_LETTER_CORRECT_ARRAY"
+      index = @shrinking_word.index(guess)
+      @shrinking_word = @shrinking_word.sub(guess, " ")
+      puts @shrinking_word # TESTING
+      @correct_guesses[index] = guess
+      puts @correct_guesses #TESTING
     end
   end
 
+end
+
+class RunGame
+  attr_accessor :game, :word, :correct_guesses
+  def initialize()
+    @word = "subcontinental"
+    @number_tries = 6
+  end
+
+  def run
+    #RUN CHOOSE-WORD METHOD => word
+    @game = GuessWord.new(word, @number_tries)
+    puts "Welcome to the Ada Word-Guess game"
+    puts "instructions".upcase
+    puts "
+       .----.-.
+      /    ( o \
+     '|  __ ` ||
+      |||  ||| -'
+      " * 6
+
+    puts "Every time you correclty guess a letter, you will be closer to will"
+    puts "But when you miss a guess, one of the 6 elephants will die"
+    game.correct_letters
+    puts @correct_guesses #TESTING - NOT NILL! WHY INCLUDE NO WORK
+    while @correct_guesses.include?("_ ") && @guess != @word
+      game.user_guess
+      game.check_guess_if_word
+    end
+  end
 
 end
 
-puts "Welcome to the Ada Word-Guess game"
-puts "instructions".upcase
-puts "
-   .----.-.
-  /    ( o \
- '|  __ ` ||
-  |||  ||| -'
-  " * 6
-
-puts "Every time you correclty guess a letter, you will be closer to will"
-puts "But when you miss guess, one of the 6 elephants will die"
-user_guess
-check_guess_if_word
-check_letter
+play = RunGame.new()
+play.run
