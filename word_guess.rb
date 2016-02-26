@@ -60,9 +60,13 @@ class GuessWord
     puts "CORRECT_LETTERS"
     number_letters = word.length
     puts number_letters
-    fill = "_ " * number_letters
-    @correct_guesses = %W(#{fill})
-    puts @correct_guesses
+    $correct_guesses = []
+    number_letters.times do |each|
+      $correct_guesses << "_"
+    end
+    # fill = "_ " * number_letters
+    # $correct_guesses = %W(#{fill})
+    puts $correct_guesses
   end
 
   def add_letter_correct_array
@@ -71,8 +75,8 @@ class GuessWord
       index = @shrinking_word.index(guess)
       @shrinking_word = @shrinking_word.sub(guess, " ")
       puts @shrinking_word # TESTING
-      @correct_guesses[index] = guess
-      puts @correct_guesses #TESTING
+      $correct_guesses[index] = guess
+      puts $correct_guesses #TESTING
     end
   end
 
@@ -97,11 +101,10 @@ class RunGame
       |||  ||| -'
       " * 6
 
-    puts "Every time you correclty guess a letter, you will be closer to will"
+    puts "Every time you correctly guess a letter, you will be closer to will"
     puts "But when you miss a guess, one of the 6 elephants will die"
     game.correct_letters
-    puts @correct_guesses #TESTING - NOT NILL! WHY INCLUDE NO WORK
-    while @correct_guesses.include?("_ ") && @guess != @word
+    while $correct_guesses.to_s.include?("_") #DOES EVER BECOME FALSE?
       game.user_guess
       game.check_guess_if_word
     end
