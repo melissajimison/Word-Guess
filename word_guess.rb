@@ -1,14 +1,15 @@
 @word = "subcontinental"
 @number_tries = 6
-
 @elephant = "
    .----.-.
   /    ( o \
  '|  __ ` ||
   |||  ||| -' "
 
+
 class GuessWord
   attr_accessor :guess
+  attr_reader :word, :number_tries
 
   def initialize(word)
     @word = word
@@ -33,7 +34,7 @@ class GuessWord
 
   def check_letter
     if @word.include?(@guess)
-      correct_letters
+      add_letter_correct_array
       puts "Yay! You got a letter!"
     else
       incorrect_guess
@@ -55,11 +56,30 @@ class GuessWord
     @fill = number_letters * '_ '
     correct_guesses = %W(@fill)
   end
+
+  def add_letter_correct_array
+    shrinking_word = word
+    while shrinking_word.includes?(guess)
+      index = word.index(guess)
+      shrinking_word.tr(guess)
+      correct_guesses[index] = guess
+    end
+  end
+
+
 end
 
 puts "Welcome to the Ada Word-Guess game"
 puts "instructions".upcase
-puts @elephants * 6
+puts "
+   .----.-.
+  /    ( o \
+ '|  __ ` ||
+  |||  ||| -'
+  " * 6
+
 puts "Every time you correclty guess a letter, you will be closer to will"
 puts "But when you miss guess, one of the 6 elephants will die"
 user_guess
+check_guess_if_word
+check_letter
