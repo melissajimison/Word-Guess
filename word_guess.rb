@@ -80,6 +80,19 @@ class GuessWord
     end
   end
 
+  def win_game
+    puts "YAY YOU WON!! With #{ @number_tries } lives!!"
+    puts "
+       .----.-.
+      /    ( o \
+     '|  __ ` ||
+      |||  ||| -' " * @number_tries 
+    exit
+  end
+
+  ## Create a method to "play again"
+
+
 end
 
 class RunGame
