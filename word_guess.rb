@@ -71,11 +71,14 @@ class GuessWord
     # correct_guesses = ["_", "_", "_"]
     puts $correct_guesses.join (' ')
     # => correct_guesses = ["_ _ _"]
+    $number_tries.times do
     puts "
        .----.-.
-      /    ( o \
+      /    ( o |"
+    puts "  
      '|  __ ` ||
-      |||  ||| -' " * $number_tries
+      |||  ||| -' "
+    end
   end
   ## Create a method to "play again"
 
@@ -89,7 +92,6 @@ class RunGame
   end
 
   def run
-    #RUN CHOOSE-WORD METHOD => word
     @game = GuessWord.new(word, $number_tries)
     puts "Welcome to the Ada Word-Guess game"
     puts "instructions".upcase
