@@ -1,3 +1,4 @@
+require 'colorize'
 class GuessWord
   attr_accessor :guess
   attr_reader :word, :number_tries
@@ -38,7 +39,7 @@ class GuessWord
     $number_tries = $number_tries - 1
     @incorrect_letters << guess
     board_display
-    puts "You have lost a(n elephant) life!"
+    puts "You have lost a(n elephant) life!".red
      if $number_tries == 0
        puts "Elephant murderer!!"
      end
@@ -74,10 +75,10 @@ class GuessWord
     $number_tries.times do
     puts "
        .----.-.
-      /    ( o |"
+      /    ( o |".blue
     puts "
      '|  __ ` ||
-      |||  ||| -' "
+      |||  ||| -' ".blue
     end
     puts "Letters guessed:"
     puts @incorrect_letters.join
@@ -111,7 +112,7 @@ class RunGame
     if $correct_guesses.to_s.include?("_") || $correct_guesses == @word
       game.win_game
     else
-      puts "You lost! Elephant murderer!"
+      puts "You lost! Elephant murderer!".purple
     end
     puts "Do you want to play again? (y/n):"
     continue = gets.chomp.downcase
