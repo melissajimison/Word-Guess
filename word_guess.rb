@@ -5,6 +5,7 @@ class GuessWord
   def initialize(word, number_tries)
     @word = word
     @shrinking_word = word
+    @incorrect_letters =[]
   end
 
   def user_guess
@@ -15,7 +16,7 @@ class GuessWord
   def check_guess_if_word
     if @guess.length > 1
       if @guess == @word #for sting, change if array
-        win_game
+        $correct_guesses = word
       else
         incorrect_guess
       end
@@ -35,11 +36,11 @@ class GuessWord
 
   def incorrect_guess
     $number_tries = $number_tries - 1
+    @incorrect_letters << guess
     board_display
     puts "You have lost a(n elephant) life!"
      if $number_tries == 0
        puts "Elephant murderer!!"
-       exit
      end
   end
 
@@ -64,7 +65,6 @@ class GuessWord
 
   def win_game
     puts "YAY YOU WON!! With #{ $number_tries } lives!!"
-    exit
   end
 
   def board_display
@@ -75,24 +75,27 @@ class GuessWord
     puts "
        .----.-.
       /    ( o |"
-    puts "  
+    puts "
      '|  __ ` ||
       |||  ||| -' "
     end
+    puts "Letters guessed:"
+    puts @incorrect_letters.join
   end
-  ## Create a method to "play again"
-
+  #previously EXIT
 end
 
 class RunGame
   attr_accessor :game, :word, :correct_guesses, :number_tries
   def initialize()
-    @word = ["Melissa", "Nicole", "concatenation", "interpolation", "instance"].sample
+    @word = ["melissa", "nicole", "concatenation", "interpolation", "instance"].sample
     $number_tries = 6
   end
 
   def run
-    @game = GuessWord.new(word, $number_tries)
+    continue = "y"
+    while continue == "y"
+    game = GuessWord.new(word, $number_tries)
     puts "Welcome to the Ada Word-Guess game"
     puts "instructions".upcase
     puts "Every time you correctly guess a letter, you will be closer to will"
@@ -100,15 +103,25 @@ class RunGame
     game.correct_letters
     game.board_display
 
-    while $correct_guesses.to_s.include?("_") #DOES EVER BECOME FALSE?
+    while $correct_guesses.to_s.include?("_") && $number_tries>0 #DOES EVER BECOME FALSE?
       game.user_guess
       game.check_guess_if_word
- puts $number_tries
+      puts $number_tries
     end
-    game.win_game
+    if $correct_guesses.to_s.include?("_") || $correct_guesses == @word
+      game.win_game
+    else
+      puts "You lost! Elephant murderer!"
+    end
+    puts "Do you want to play again? (y/n):"
+    continue = gets.chomp.downcase
+      if continue == "n" || continue == "no"
+        exit
+      end
+    @word = ["melissa", "nicole", "concatenation", "interpolation", "instance"].sample
+    $number_tries = 6
+    end
   end
-
 end
-
 play = RunGame.new()
 play.run
